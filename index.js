@@ -24,13 +24,14 @@ wss.on('connection', (ws) => {
   });
 });
 
-console.log('WebSocket server is running on ws://localhost:9000');
+console.log('WebSocket port -> ws://{server}}:9000');
 
 
 const client = mqtt.connect("mqtt://test.mosquitto.org");
 
 client.on("connect", () => {
   client.subscribe("mqtt/test", (err) => {
+    console.log("MQTT broker -> mqtt://test.mosquitto.org:1883 Topic -> mqtt/test");
     //if (!err) {
     //  client.publish("presence", "Hello mqtt");
     //}
@@ -44,7 +45,7 @@ client.on("message", (topic, message) => {
   //client.end();
 });
 
-
+// HTTP server
 const app = express()
 const port = 8080
 app.use(express.json());
@@ -53,9 +54,9 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.post('/', (req, res) => {
-    console.log(`HTTP Request -> ${req.body}`);
+    console.log(`HTTP Request -> ${JSON.stringify(req.body)}`);
     res.send({received: req.body})
 })
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`REST port -> http://{server}:${port}`)
 })
